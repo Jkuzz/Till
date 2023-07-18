@@ -1,9 +1,11 @@
-import { SignInButton, SignOutButton, useUser } from '@clerk/nextjs'
+import { useUser } from '@clerk/nextjs'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useState } from 'react'
 import toast from 'react-hot-toast'
+import { PageLayout } from '~/components/layout'
 import { LoadingSpinner } from '~/components/loading'
+import { PageHeader } from '~/components/pageHeader'
 import { api } from '~/utils/api'
 
 const CreatePostWizard = () => {
@@ -69,20 +71,14 @@ export default function Home() {
   const { isSignedIn } = useUser()
 
   return (
-    <main className="flex min-h-screen flex-col items-center gap-y-4 bg-gradient-to-b from-[#461985] to-[#014128] p-4">
-      <div className="flex w-full flex-row items-center justify-between">
-        <h1 className="text-4xl font-bold text-white sm:text-6xl">Till 🥕</h1>
-        <div>{!isSignedIn ? <SignInButton /> : <SignOutButton />}</div>
+    <PageLayout>
+      {isSignedIn && <CreatePostWizard />}
+      <div className="rounded-lg bg-gray-900 p-6">
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Doloribus
+        recusandae maiores deleniti, commodi praesentium neque obcaecati iure
+        quos excepturi, odio odit distinctio error molestiae illum inventore
+        esse nulla aut laboriosam?
       </div>
-      <div className="flex flex-col gap-y-4 p-4">
-        {isSignedIn && <CreatePostWizard />}
-        <div className="rounded-lg bg-gray-900 p-6">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Doloribus
-          recusandae maiores deleniti, commodi praesentium neque obcaecati iure
-          quos excepturi, odio odit distinctio error molestiae illum inventore
-          esse nulla aut laboriosam?
-        </div>
-      </div>
-    </main>
+    </PageLayout>
   )
 }
