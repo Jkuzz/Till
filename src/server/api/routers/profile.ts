@@ -26,6 +26,7 @@ export const profileRouter = createTRPCRouter({
       const post = await ctx.prisma.user.create({
         data: { id: input.client_id, carrots: 10 },
       })
+      console.log(post)
       return post
     }),
 })
