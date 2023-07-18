@@ -12,16 +12,17 @@ generator client {
 }
 
 model Post {
-    id          String   @id @default(cuid())
-    createdAt   DateTime @default(now())
+    id        String   @id @default(cuid())
+    createdAt DateTime @default(now())
 
-    content     String @db.VarChar(255)
-    authorId    String // Managed by Clerk
+    content  String @db.VarChar(255)
+    authorId String // Managed by Clerk
 
     @@index([authorId])
 }
 
 model User {
-    id          String @id // Managed by Clerk
-    carrots     Int @default(10)
+    id       String @id // Managed by Clerk
+    carrots  Int    @default(10)
+    potatoes Int    @default(50)
 }
