@@ -66,7 +66,6 @@ const CreatePostWizard = () => {
 }
 
 export default function Home() {
-  const hello = api.example.hello.useQuery({ text: 'from tRPC' })
   const { isSignedIn } = useUser()
 
   return (
