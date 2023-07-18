@@ -5,7 +5,7 @@ import { useState } from 'react'
 import toast from 'react-hot-toast'
 import { PageLayout } from '~/components/layout'
 import { LoadingSpinner } from '~/components/loading'
-import { PageHeader } from '~/components/pageHeader'
+import { PostFeed } from '~/components/postFeed'
 import { api } from '~/utils/api'
 
 const CreatePostWizard = () => {
@@ -30,13 +30,15 @@ const CreatePostWizard = () => {
   if (!user) return null
   return (
     <div className="flex w-full gap-3 rounded-lg bg-gray-900 p-4">
-      <Image
-        className="h-14 w-14 rounded-full"
-        src={user.profileImageUrl}
-        alt="Profile image"
-        width={56}
-        height={56}
-      />
+      <Link href={'/' + (user.username || '')}>
+        <Image
+          className="h-14 w-14 rounded-full"
+          src={user.profileImageUrl}
+          alt="Profile image"
+          width={56}
+          height={56}
+        />
+      </Link>
       <input
         placeholder="What's on your mind?"
         className="grow bg-transparent outline-none"
@@ -73,12 +75,7 @@ export default function Home() {
   return (
     <PageLayout>
       {isSignedIn && <CreatePostWizard />}
-      <div className="rounded-lg bg-gray-900 p-6">
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Doloribus
-        recusandae maiores deleniti, commodi praesentium neque obcaecati iure
-        quos excepturi, odio odit distinctio error molestiae illum inventore
-        esse nulla aut laboriosam?
-      </div>
+      <PostFeed />
     </PageLayout>
   )
 }
