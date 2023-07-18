@@ -9,7 +9,7 @@ export const PostFeed = () => {
   if (!data) return <div>Something went wrong</div>
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col gap-4">
       {data.map((fullPost) => (
         <PostView {...fullPost} key={fullPost.post.id} />
       ))}
