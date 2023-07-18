@@ -52,7 +52,7 @@ const ProfilePage: NextPage<{ username: string }> = ({ username }) => {
   return (
     <>
       <Head>
-        <title>{'🥕' + data.username}</title>
+        <title>{data.username}</title>
       </Head>
       <PageLayout>
         <div className="relative flex h-32 mb-16 items-end justify-end rounded-lg bg-gray-900">
