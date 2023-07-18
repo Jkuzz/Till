@@ -6,8 +6,10 @@ import { appRouter } from '~/server/api/root'
 import { createTRPCContext } from '~/server/api/trpc'
 
 export const requestSchema = z.object({
-  client_id: z.string().min(7),
-  created_at: z.number(),
+  data: z.object({
+    client_id: z.string().min(7),
+    created_at: z.number(),
+  }),
 })
 
 const newUserHandler = (req: NextApiRequest, res: NextApiResponse) => {
