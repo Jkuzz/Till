@@ -2,7 +2,7 @@ import { clerkClient } from '@clerk/nextjs'
 import { TRPCError } from '@trpc/server'
 import { z } from 'zod'
 import { requestSchema } from '~/pages/api/newUser'
-import { createTRPCRouter, publicProcedure } from '~/server/api/trpc'
+import { createTRPCRouter, publicProcedure, protectedProcedure } from '~/server/api/trpc'
 import { filterUserForClient } from '~/server/helpers/filterUserForclient'
 
 export const profileRouter = createTRPCRouter({
@@ -20,6 +20,13 @@ export const profileRouter = createTRPCRouter({
       }
       return filterUserForClient(user)
     }),
+  getProfileById: protectedProcedure
+    .input(z.object({ userId: z.string() }))
+    .query(({ ctx, input }) =>
+      ctx.prisma.user.findFirst({
+        where: { id: input.userId },
+      })
+    ),
   createProfile: publicProcedure
     .input(requestSchema)
     .mutation(async ({ ctx, input }) => {

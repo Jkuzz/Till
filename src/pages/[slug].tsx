@@ -6,6 +6,7 @@ import Image from 'next/image'
 import { LoadingPage } from '~/components/loading'
 import { generateSSGHelper } from '~/server/helpers/ssgHelper'
 import { PostView } from '~/components/postView'
+import { useUser } from '@clerk/nextjs'
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const helpers = generateSSGHelper()
@@ -43,10 +44,22 @@ const ProfileFeed = (props: { userId: string }) => {
   )
 }
 
+const ResourcesDisplay = () => {
+  const { user } = useUser()
+  const userProfile = api.profile.getProfileById.useQuery({ userId: user?.id || '' })
+  console.log('🚀 ~ file: [slug].tsx:50 ~ ResourcesDisplay ~ user?.id:', user?.id)
+  console.log('🚀 ~ file: [slug].tsx:50 ~ ResourcesDisplay ~ userProfile:', userProfile)
+
+  return <div>🥕{userProfile.data?.carrots}</div>
+
+
+}
+
 const ProfilePage: NextPage<{ username: string }> = ({ username }) => {
-  const { data } = api.profile.getUserByUsername.useQuery({
-    username,
-  })
+  const { data } = api.profile.getUserByUsername.useQuery({ username })
+  const { user } = useUser()
+  console.log('🚀 ~ file: [slug].tsx:56 ~ data:', data?.id)
+  console.log('🚀 ~ file: [slug].tsx:57 ~ user:', user?.id)
   if (!data) return <div>404</div>
 
   return (
@@ -55,7 +68,7 @@ const ProfilePage: NextPage<{ username: string }> = ({ username }) => {
         <title>{data.username}</title>
       </Head>
       <PageLayout>
-        <div className="relative flex h-32 mb-16 items-end justify-end rounded-lg bg-gray-900">
+        <div className="relative mb-16 flex h-32 justify-end rounded-lg bg-gray-900">
           <Image
             className="absolute -bottom-16 left-4 rounded-full border-4 border-slate-900 bg-slate-900"
             src={data.profileImageUrl}
@@ -63,7 +76,11 @@ const ProfilePage: NextPage<{ username: string }> = ({ username }) => {
             width={128}
             height={128}
           />
-          <div className="p-4 text-2xl font-bold">{data.username}</div>
+          <div className='flex flex-col justify-between items-end p-4'>
+
+          {user?.id && user?.id === data?.id && <ResourcesDisplay />}
+          <div className="text-2xl font-bold">{data.username}</div>
+          </div>
         </div>
         <ProfileFeed userId={data.id} />
       </PageLayout>
